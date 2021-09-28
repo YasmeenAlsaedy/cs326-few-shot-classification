@@ -79,7 +79,7 @@ class Trainer:
         return train_scores, test_scores
 
     def train(self):
-        
+
         print(self.config)
         episodes = tqdm(range(self.config['training']['num_train_episodes']))
 
