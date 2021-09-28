@@ -90,6 +90,7 @@ class Trainer:
             episodes.set_description(f'[Episode {ep: 03d}] Loss: {ep_train_loss: .3f}. Acc: {ep_train_acc: .03f}')
 
     def evaluate(self):
+
         """
         For evaluation, we should
         """
