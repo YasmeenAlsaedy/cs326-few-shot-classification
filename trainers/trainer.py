@@ -79,6 +79,8 @@ class Trainer:
         return train_scores, test_scores
 
     def train(self):
+        
+        print(self.config)
         episodes = tqdm(range(self.config['training']['num_train_episodes']))
 
         for ep in episodes:
@@ -103,6 +105,5 @@ class Trainer:
 
         for split in scores:
             split_scores = np.array(scores[split])
-            print(self.config)
             print(f'[EVAL] Mean {split} loss: {split_scores[:, 0].mean(): .03f}.')
             print(f'[EVAL] Mean {split} acc: {split_scores[:, 1].mean(): .03f}.')
