@@ -103,5 +103,6 @@ class Trainer:
 
         for split in scores:
             split_scores = np.array(scores[split])
+            print(self.config)
             print(f'[EVAL] Mean {split} loss: {split_scores[:, 0].mean(): .03f}.')
             print(f'[EVAL] Mean {split} acc: {split_scores[:, 1].mean(): .03f}.')
