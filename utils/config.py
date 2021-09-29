@@ -47,10 +47,10 @@ TRAINING_CONFIG = {
     },
     'protonet': {
         # TODO(protonet): your ProtoNet hyperparams
-        'batch_size': 'TODO',
-        'num_train_steps_per_episode': 'TODO',
-        'num_train_episodes': 'TODO',
-        'optim_kwargs': 'TODO',
+        'batch_size': 20,
+        'num_train_steps_per_episode': 50,
+        'num_train_episodes': 4,
+        'optim_kwargs':  {'lr': 0.001},
         # ... other ProtoNet hyperparameters?
     },
     'maml': {
