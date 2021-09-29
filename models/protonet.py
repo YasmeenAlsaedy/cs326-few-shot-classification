@@ -31,7 +31,7 @@ class ProtoNet(nn.Module):
             # Head
             nn.Linear(120, 84),
             nn.ReLU(),
-            nn.softmax(84, config['training']['num_classes_per_task']),
+            nn.Linear(84, config['training']['num_classes_per_task']),
         ]
 
     def forward(self, x: Tensor) -> Tensor:
