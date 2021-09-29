@@ -2,7 +2,7 @@ from typing import Tuple
 import numpy as np
 import torch
 from .trainer import Trainer
-
+from models import init_model
 
 class ProtoNetTrainer(Trainer):
     def sample_batch(self, dataset):
@@ -23,7 +23,11 @@ class ProtoNetTrainer(Trainer):
     def fine_tune(self, ds_train, ds_test) -> Tuple[float, float]:
         # TODO(protonet): your code goes here
         # How does ProtoNet operate in the inference stage?
-        train_scores = "TODO"
-        test_scores = "TODO"
+        curr_model = init_model(self.config).to(self.config['device'])
+        curr_model.params.data.copy_(self.model.params.data)
+        curr_optim = torch.optim.Adam(curr_model.parameters(), **self.config['model']['ft_optim_kwargs'])
+
+        train_scores = Trainer.train_on_episode(self, curr_model, curr_optim, ds_train)
+        test_scores = self.compute_scores(curr_model, ds_test)
 
         return train_scores, test_scores

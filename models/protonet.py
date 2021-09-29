@@ -47,10 +47,14 @@ class ProtoNet(nn.Module):
         embeddings = self.embedder(x) # [num_classes * batch_size, dim]
         print(embeddings)
         # TODO(protonet): compute prototypes given the embeddings
-        prototypes = "TODO"
+        # embeddings.sum()/num_classes
+        #
+        prototypes = embeddings.sum()/num_classes
 
         # TODO(protonet): copmute the logits based on embeddings and prototypes similarity
         # You can use either L2-distance or cosine similarity
-        logits = "TODO"
+        # torch.
+        cos = nn.CosineSimilarity(dim=embeddings.shape[1], eps=1e-6)
+        logits = cos(prototypes, embeddings)
 
         return logits

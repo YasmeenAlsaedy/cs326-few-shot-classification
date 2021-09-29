@@ -32,10 +32,10 @@ def fix_random_seed(seed: int):
 
 
 def run_experiment(method: str):
-    num_shots = [1,2,3,5,10,15]
+    num_shots = [1]
     for i in num_shots:
         config = construct_config(method)
-        config['training']['num_shots'] =  1
+        config['training']['num_shots'] = i
         fix_random_seed(config['training']['random_seed'])
         ds_train, ds_test = get_datasets(config)
         source_dl = FSLDataLoader(config, ds_train)
