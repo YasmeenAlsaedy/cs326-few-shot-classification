@@ -13,7 +13,26 @@ class ProtoNet(nn.Module):
 
         # TODO(protonet): your code here
         # Use the same embedder as in LeNet
-        self.embedder = "TODO"
+        self.embedder = [
+            # Body
+            nn.Conv2d(1, 6, 5),
+            nn.ReLU(),
+            nn.AvgPool2d(2),
+            nn.Conv2d(6, 16, 5),
+            nn.ReLU(),
+            nn.AvgPool2d(2),
+            nn.Conv2d(16, 120, 5),
+            nn.ReLU(),
+
+            # Neck
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten(),
+
+            # Head
+            nn.Linear(120, 84),
+            nn.ReLU(),
+            nn.softmax(84, config['training']['num_classes_per_task']),
+        ]
 
     def forward(self, x: Tensor) -> Tensor:
         """
@@ -26,7 +45,7 @@ class ProtoNet(nn.Module):
         c, h, w = x.shape[1:]
 
         embeddings = self.embedder(x) # [num_classes * batch_size, dim]
-
+        print(embeddings)
         # TODO(protonet): compute prototypes given the embeddings
         prototypes = "TODO"
 
