@@ -65,7 +65,6 @@ TRAINING_CONFIG = {
 
 COMMON_TRAINING_CONFIG = {
     'random_seed': 42,
-    'num_shots': 3, # TODO: this is what you may vary to have different K values
     'num_classes_per_task': 5,
 }
 
