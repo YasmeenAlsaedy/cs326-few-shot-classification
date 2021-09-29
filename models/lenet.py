@@ -39,7 +39,7 @@ class LeNet(nn.Sequential):
             nn.Linear(120, 84),
             nn.ReLU(),
             nn.Linear(84, config['training']['num_classes_per_task']),
-            nn.softmax(config['training']['num_classes_per_task'])
+
         ]
 
         super().__init__(*layers)
