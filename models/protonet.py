@@ -28,7 +28,7 @@ class ProtoNet(nn.Module):
 
         embeddings = self.embedder(x) # [num_classes * batch_size, dim]
         print(embeddings)
-        print(nn.Softmax(embeddings))
+        print(nn.Softmax(embeddings, dim=0))
         # TODO(protonet): compute prototypes given the embeddings
         # embeddings.sum()/num_classes
         #
@@ -41,6 +41,6 @@ class ProtoNet(nn.Module):
         print(num_classes)
         print(prototypes)
         cos = nn.CosineSimilarity(eps=1e-6)
-        logits = cos(prototypes, nn.Softmax(embeddings))
+        logits = cos(prototypes, nn.Softmax(embeddings, dim=0))
 
         return logits
