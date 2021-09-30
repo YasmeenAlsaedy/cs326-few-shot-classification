@@ -28,7 +28,7 @@ class ProtoNet(nn.Module):
 
         embeddings = self.embedder(x) # [num_classes * batch_size, dim]
         print(embeddings)
-        print(nn.Softmax(embeddings, dim=0))
+
         # TODO(protonet): compute prototypes given the embeddings
         # embeddings.sum()/num_classes
         #
