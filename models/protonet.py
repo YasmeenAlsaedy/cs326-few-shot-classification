@@ -55,7 +55,10 @@ class ProtoNet(nn.Module):
         # TODO(protonet): copmute the logits based on embeddings and prototypes similarity
         # You can use either L2-distance or cosine similarity
         # torch.
-        cos = nn.CosineSimilarity( eps=1e-6)
+        print(batch_size)
+        print(num_classes)
+        print(prototypes)
+        cos = nn.CosineSimilarity(eps=1e-6)
         logits = cos(prototypes, embeddings)
 
         return logits
