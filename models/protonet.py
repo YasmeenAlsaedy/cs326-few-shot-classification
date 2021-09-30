@@ -13,7 +13,7 @@ class ProtoNet(nn.Module):
 
         # TODO(protonet): your code here
         # Use the same embedder as in LeNet
-        self.embedder = [
+        self.embedder = nn.Sequential(
             # Body
             nn.Conv2d(1, 6, 5),
             nn.ReLU(),
@@ -32,8 +32,8 @@ class ProtoNet(nn.Module):
             nn.Linear(120, 84),
             nn.ReLU(),
             nn.Linear(84, config['training']['num_classes_per_task']),
-            nn.softmax(config['training']['num_classes_per_task'])
-        ]
+            nn.Softmax(config['training']['num_classes_per_task'])
+        )
 
     def forward(self, x: Tensor) -> Tensor:
         """
