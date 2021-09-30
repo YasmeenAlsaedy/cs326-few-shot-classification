@@ -32,7 +32,6 @@ class ProtoNet(nn.Module):
             nn.Linear(120, 84),
             nn.ReLU(),
             nn.Linear(84, config['training']['num_classes_per_task']),
-            nn.Softmax()
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -59,6 +58,6 @@ class ProtoNet(nn.Module):
         print(num_classes)
         print(prototypes)
         cos = nn.CosineSimilarity(eps=1e-6)
-        logits = cos(prototypes, embeddings)
+        logits = cos(prototypes, nn.Softmax(embeddings))
 
         return logits
