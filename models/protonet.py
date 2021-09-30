@@ -41,6 +41,7 @@ class ProtoNet(nn.Module):
         print(num_classes)
         print(prototypes)
         cos = nn.CosineSimilarity(eps=1e-6)
-        logits = cos(prototypes, nn.Softmax(embeddings, dim=0))
+        result = nn.Softmax(embeddings)
+        logits = cos(prototypes, result)
 
         return logits
