@@ -31,8 +31,7 @@ class ProtoNet(nn.Module):
 
         # TODO(protonet): compute prototypes given the embeddings
         # embeddings.sum()/num_classes
-        #
-        prototypes = embeddings.sum()/num_classes
+        prototypes = torch.tensor([ (embed.sum(dim=0)/num_classes).tolist() for embed in embeddings]).view((5,-1)).cuda()
 
         # TODO(protonet): copmute the logits based on embeddings and prototypes similarity
         # You can use either L2-distance or cosine similarity
@@ -41,7 +40,6 @@ class ProtoNet(nn.Module):
         print(num_classes)
         print(prototypes)
         cos = nn.CosineSimilarity(eps=1e-6)
-        result = torch.tensor(nn.Softmax(embeddings).dim).cuda()
-        logits = cos(prototypes, result)
+        logits = cos(prototypes, embeddings)
 
         return logits
