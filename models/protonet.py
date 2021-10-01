@@ -39,7 +39,9 @@ class ProtoNet(nn.Module):
         print(batch_size)
         print(num_classes)
         print(prototypes)
-        cos = nn.CosineSimilarity(eps=1e-6)
-        logits = cos(prototypes, embeddings)
+        softmax = nn.Softmax(dim=1)
+        result = torch.tensor(softmax(embeddings))
+        cos = nn.CosineSimilarity(dim=1, eps=1e-6)
+        logits = cos(prototypes, result).view((5,-1))
 
         return logits
