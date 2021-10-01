@@ -42,6 +42,6 @@ class ProtoNet(nn.Module):
         print(prototypes)
         softmax = nn.Softmax(dim=1)
         result = torch.tensor(softmax(embeddings))
-        logits = result.apply_( lambda x: torch.pow(x-prototypes,2) ).cuda()
+        logits = result.apply_( lambda x: torch.pow(x-prototypes, 2)).to(self.config['device'])
 
         return logits
