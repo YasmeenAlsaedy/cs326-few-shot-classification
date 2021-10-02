@@ -24,7 +24,6 @@ class ProtoNetTrainer(Trainer):
         # TODO(protonet): your code goes here
         # How does ProtoNet operate in the inference stage?
         curr_model = init_model(self.config).to(self.config['device'])
-        curr_model.params.data.copy_(self.model.params.data)
         curr_optim = torch.optim.Adam(curr_model.parameters(), **self.config['model']['ft_optim_kwargs'])
 
         train_scores = Trainer.train_on_episode(self, curr_model, curr_optim, ds_train)

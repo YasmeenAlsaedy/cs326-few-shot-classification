@@ -31,8 +31,7 @@ class Trainer:
 
             x = x.to(self.config['device'])
             y = y.to(self.config['device'])
-            print(y)
-            print(y.shape)
+
             logits = model(x) # [batch_size, num_classes_per_task]
             loss = F.cross_entropy(logits, y)
             acc = (logits.argmax(dim=1) == y).float().mean()
