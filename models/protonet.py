@@ -40,7 +40,7 @@ class ProtoNet(nn.Module):
         print(batch_size)
         print(num_classes)
         print(prototypes)
-        funcs = lambda x: torch.pow(x - pro, 2)
+        funcs = lambda x: torch.pow(x - prototypes, 2)
         softmax = nn.Softmax(dim=1)
         result = torch.tensor(softmax(embeddings))
         logits = torch.Tensor( [funcs(f).tolist() for  f in result]).to(self.config['device'])
