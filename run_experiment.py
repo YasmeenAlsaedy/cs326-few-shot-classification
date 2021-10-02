@@ -32,7 +32,8 @@ def fix_random_seed(seed: int):
 
 
 def run_experiment(method: str):
-    num_shots = [1,2,3,5,10,15]
+    #num_shots = [1,2,3,5,10,15]
+    num_shots = [2]
     for i in num_shots:
         config = construct_config(method)
         config['training']['num_shots'] = i
