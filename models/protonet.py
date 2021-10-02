@@ -35,7 +35,7 @@ class ProtoNet(nn.Module):
         # TODO(protonet): copmute the logits based on embeddings and prototypes similarity
         # You can use either L2-distance or cosine similarity
         # torch.
-        funcs = lambda x: torch.sqrt(torch.pow(x-pro, 2))
+        funcs = lambda x: torch.sqrt(torch.pow(x-prototypes, 2))
         softmax = nn.Softmax(dim=1)
         result = softmax(embeddings).clone().detach()
         logits = torch.tensor([funcs(f).tolist() for f in result], requires_grad = True).to(self.config['device'])
