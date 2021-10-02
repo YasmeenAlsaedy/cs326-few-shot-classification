@@ -25,10 +25,8 @@ class ProtoNet(nn.Module):
         num_classes = self.config['training']['num_classes_per_task']
         batch_size = len(x) // num_classes
         c, h, w = x.shape[1:]
-        print(x.shape[1:])
-        print(x)
         embeddings = self.embedder(x) # [num_classes * batch_size, dim]
-        print(embeddings)
+
 
         # TODO(protonet): compute prototypes given the embeddings
         # embeddings.sum()/num_classes
@@ -37,9 +35,6 @@ class ProtoNet(nn.Module):
         # TODO(protonet): copmute the logits based on embeddings and prototypes similarity
         # You can use either L2-distance or cosine similarity
         # torch.
-        print(batch_size)
-        print(num_classes)
-        print(prototypes)
         funcs = lambda x: torch.pow(x - prototypes, 2)
         softmax = nn.Softmax(dim=1)
         result = softmax(embeddings).clone().detach()
