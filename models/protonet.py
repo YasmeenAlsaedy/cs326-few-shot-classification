@@ -36,7 +36,7 @@ class ProtoNet(nn.Module):
         # You can use either L2-distance or cosine similarity
         # torch.
         euclidean_dist = lambda x: torch.sqrt(torch.pow(x-prototypes, 2))
-        softmax = nn.Softmax()
+        softmax = nn.Softmax(dim=1)
         result = softmax(embeddings).clone().detach()
         logits = torch.tensor([euclidean_dist(r).tolist() for r in result], requires_grad = True).to(self.config['device'])
 
