@@ -15,6 +15,8 @@ class FSLDataLoader:
         self.config = config
         self.rnd = np.random.RandomState(self.config['training']['random_seed'])
         images, labels = zip(*[(x, y) for (x, y) in tqdm(dataset, desc='Loading images in memory')])
+        torch.save(images, 'images.pt')
+        torch.save(labels, 'labels.pt')
 
         num_unique_classes = len(set(labels))
         sorted_images = [[] for _ in range(num_unique_classes)]
