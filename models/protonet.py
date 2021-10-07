@@ -16,7 +16,20 @@ class ProtoNet(nn.Module):
 
         # TODO(protonet): your code here
         # Use the same embedder as in LeNet
-        self.embedder = LeNet(config)
+        self.embedder = nn.Sequential(   # Body
+            nn.Conv2d(1, 6, 5),
+            nn.ReLU(),
+            nn.AvgPool2d(2),
+            nn.Conv2d(6, 16, 5),
+            nn.ReLU(),
+            nn.AvgPool2d(2),
+            nn.Conv2d(16, 120, 5),
+            nn.ReLU(),
+
+            # Neck
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten()
+        )
 
     def forward(self, x: Tensor) -> Tensor:
         """
@@ -28,25 +41,34 @@ class ProtoNet(nn.Module):
         batch_size = len(x) // num_classes
         c, h, w = x.shape[1:]
         embeddings = self.embedder(x) # [num_classes * batch_size, dim]
-        print(embeddings)
 
         # TODO(protonet): compute prototypes given the embeddings
-        # embeddings.sum()/num_classes
-        #prototypes = embeddings.sum()/num_classes
-        prototypes  = [(pclass.sum()/num_classes).item() for embedd in embeddings for pclass in embedd]
-        print(prototypes)
+        embedds = embeddings.view([num_classes, batch_size, -1]) # num_samples * dim [[0.232],[0.12],[0.12]]
+
+
+        prototypes = embedds.mean(1)  # num_class * dim [[0.12],[0.43],[0.12],[0.43],[0.12]]
+
         # TODO(protonet): copmute the logits based on embeddings and prototypes similarity
         # You can use either L2-distance or cosine similarity
         # torch.
-        #euclidean_dist = lambda x: torch.sqrt(torch.pow(x-prototypes, 2))
-        softmax = nn.Softmax(dim=1)
-        result = softmax(embeddings).clone().detach()
-        print(result)
-        #logits = torch.tensor([euclidean_dist(r).tolist() for r in result], requires_grad = True).to(self.config['device'])
-        logits = torch.tensor([(self.fun_L(v, prototypes[i])).tolist() for f in result for i, v in enumerate(f)]).clone().detach().view([batch_size, num_classes, -1]).to(self.config['device'])
-        print(logits)
 
-        return logits
+        n = embeddings.size(0)
+        m = prototypes.size(0)
+        d = embeddings.size(1)
 
-    def fun_L(x,  pro):
-        return torch.sqrt(torch.pow(x-pro, 2))
+        embeddings = embeddings.unsqueeze(1).expand(n, m, d)
+        prototypes = prototypes.unsqueeze(0).expand(n, m, d)
+
+        logits = self.fun_L(embeddings,  prototypes)
+        #  cross entropy return the index of the highest distance
+        #  adding - to get the smallest distance
+        return -logits
+
+    def fun_L(self, x,  pro):
+        # [[0.12, 0.23, 0.23,0.12,0.123]
+        # [0.12, 0.23, 0.23,0.12,0.123],
+        # [0.12, 0.23, 0.23,0.12,0.123],
+        # [0.12, 0.23, 0.23, 0.12, 0.123],
+        # [0.12, 0.23, 0.23,0.12,0.123]]
+        # output = num_sample * num_classes
+        return torch.pow(x-pro, 2).sum(2)

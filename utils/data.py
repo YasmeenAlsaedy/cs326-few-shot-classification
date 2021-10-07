@@ -16,7 +16,9 @@ class FSLDataLoader:
         self.rnd = np.random.RandomState(self.config['training']['random_seed'])
         images = torch.load('images.pt')
         labels = torch.load('labels.pt')
-       # images, labels = zip(*[(x, y) for (x, y) in tqdm(dataset, desc='Loading images in memory')])
+        # images, labels = zip(*[(x, y) for (x, y) in tqdm(dataset, desc='Loading images in memory')])
+        # torch.save(images, 'images.pt')
+        # torch.save(labels, 'labels.pt')
        # torch.save(images, 'images.pt')
        # torch.save(labels, 'labels.pt')
 

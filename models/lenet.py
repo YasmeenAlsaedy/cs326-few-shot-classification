@@ -88,6 +88,5 @@ class PureLeNet(PureModule):
 
     def forward(self, x: Tensor, params: Tensor=None):
         params = params if not params is None else self.params
-
         return self.model(x, params)
 

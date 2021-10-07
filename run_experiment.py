@@ -2,9 +2,9 @@
 
 import argparse
 
-from trainers.trainer import Trainer
-from trainers.protonet_trainer import ProtoNetTrainer
 from trainers.maml_trainer import MAMLTrainer
+from trainers.protonet_trainer import ProtoNetTrainer
+from trainers.trainer import Trainer
 from utils.config import construct_config
 from utils.data import get_datasets, FSLDataLoader
 
@@ -14,7 +14,6 @@ def parse_args():
     parser.add_argument('-m', '--method', default='unpretrained_baseline', type=str, help='Which method to run?')
 
     return parser.parse_args()
-
 
 def fix_random_seed(seed: int):
     import random
@@ -32,8 +31,8 @@ def fix_random_seed(seed: int):
 
 
 def run_experiment(method: str):
-    #num_shots = [1,2,3,5,10,15]
-    num_shots = [2]
+    num_shots = [1,2,3,5,10,15]
+
     for i in num_shots:
         config = construct_config(method)
         config['training']['num_shots'] = i
@@ -54,7 +53,7 @@ def run_experiment(method: str):
 
         trainer.train()
         trainer.evaluate()
-
+        print("---------------")
 
 if __name__ == '__main__':
     args = parse_args()
