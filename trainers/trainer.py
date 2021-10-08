@@ -4,10 +4,8 @@ from tqdm import tqdm
 import numpy as np
 import torch
 import torch.nn.functional as F
-
 from models import init_model
 from utils.data import FSLDataLoader
-
 
 class Trainer:
     def __init__(self, config: Dict, source_dl: FSLDataLoader, target_dl: FSLDataLoader):

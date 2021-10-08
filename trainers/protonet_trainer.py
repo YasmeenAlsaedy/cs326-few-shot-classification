@@ -17,7 +17,6 @@ class ProtoNetTrainer(Trainer):
         idx = [(c * num_shots + i) for c in range(k) for i in self.rnd.permutation(num_shots)[:batch_size]]
         x = torch.stack([dataset[i][0] for i in idx])
         y = torch.stack([dataset[i][1] for i in idx])
-
         return x, y
 
     def fine_tune(self, ds_train, ds_test) -> Tuple[float, float]:

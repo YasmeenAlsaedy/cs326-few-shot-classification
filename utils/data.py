@@ -22,7 +22,6 @@ class FSLDataLoader:
        # torch.save(images, 'images.pt')
        # torch.save(labels, 'labels.pt')
 
-
         num_unique_classes = len(set(labels))
         sorted_images = [[] for _ in range(num_unique_classes)]
 

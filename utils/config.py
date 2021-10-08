@@ -8,7 +8,6 @@ DATA_CONFIG = {
     'target_img_size': 64,
 }
 
-
 METHODS_CONFIGS = {
     'unpretrained_baseline': {
         'name': 'unpretrained_baseline'

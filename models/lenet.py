@@ -73,7 +73,6 @@ class PureLeNet(PureModule):
             PureProxy(nn.ReLU()),
             PureLinear(84, config['training']['num_classes_per_task']),
         )
-
         self.size = self.model.size
         self.params = None
 
