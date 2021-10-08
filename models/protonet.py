@@ -13,7 +13,6 @@ class ProtoNet(nn.Module):
         super().__init__()
 
         self.config = config
-
         # TODO(protonet): your code here
         # Use the same embedder as in LeNet
         self.embedder = nn.Sequential(   # Body
