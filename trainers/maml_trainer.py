@@ -31,8 +31,8 @@ class MAMLTrainer(Trainer):
             # TODO(maml): compute the gradient and update the fast weights
             # Hint: think hard about it. This is maybe the hardest part of the whole assignment
             # You will likely need to check open-source implementations to get the idea of how things work
-            grad = torch.autograd.grad(loss, model.params)
-            fast_w = list(map(lambda p: p[1] - self.config['training']['optim_kwargs']['lr'] * p[0], zip(grad,model.params)))
+            grad = torch.autograd.grad(loss, fast_w)
+            fast_w = list(map(lambda p: p[1] - self.config['training']['optim_kwargs']['lr'] * p[0], zip(grad, fast_w)))
 
             losses.append(loss.item())
             accs.append(acc.item())
