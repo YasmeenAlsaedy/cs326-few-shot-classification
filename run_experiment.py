@@ -2,9 +2,9 @@
 
 import argparse
 
-from trainers.trainer import Trainer
-from trainers.protonet_trainer import ProtoNetTrainer
 from trainers.maml_trainer import MAMLTrainer
+from trainers.protonet_trainer import ProtoNetTrainer
+from trainers.trainer import Trainer
 from utils.config import construct_config
 from utils.data import get_datasets, FSLDataLoader
 
@@ -14,7 +14,6 @@ def parse_args():
     parser.add_argument('-m', '--method', default='unpretrained_baseline', type=str, help='Which method to run?')
 
     return parser.parse_args()
-
 
 def fix_random_seed(seed: int):
     import random
@@ -32,25 +31,29 @@ def fix_random_seed(seed: int):
 
 
 def run_experiment(method: str):
-    config = construct_config(method)
-    fix_random_seed(config['training']['random_seed'])
-    ds_train, ds_test = get_datasets(config)
-    source_dl = FSLDataLoader(config, ds_train)
-    target_dl = FSLDataLoader(config, ds_test)
-    # source_dl = target_dl
+    num_shots = [1,2,3,5,10,15]
 
-    if method in ['unpretrained_baseline', 'pretrained_baseline']:
-        trainer = Trainer(config, source_dl, target_dl)
-    elif method == 'protonet':
-        trainer = ProtoNetTrainer(config, source_dl, target_dl)
-    elif method == 'maml':
-        trainer = MAMLTrainer(config, source_dl, target_dl)
-    else:
-        raise NotImplementedError(f'Unknown method: {method}')
+    for i in num_shots:
+        config = construct_config(method)
+        config['training']['num_shots'] = i
+        fix_random_seed(config['training']['random_seed'])
+        ds_train, ds_test = get_datasets(config)
+        source_dl = FSLDataLoader(config, ds_train)
+        target_dl = FSLDataLoader(config, ds_test)
+        # source_dl = target_dl
 
-    trainer.train()
-    trainer.evaluate()
+        if method in ['unpretrained_baseline', 'pretrained_baseline']:
+            trainer = Trainer(config, source_dl, target_dl)
+        elif method == 'protonet':
+            trainer = ProtoNetTrainer(config, source_dl, target_dl)
+        elif method == 'maml':
+            trainer = MAMLTrainer(config, source_dl, target_dl)
+        else:
+            raise NotImplementedError(f'Unknown method: {method}')
 
+        trainer.train()
+        trainer.evaluate()
+        print("---------------")
 
 if __name__ == '__main__':
     args = parse_args()

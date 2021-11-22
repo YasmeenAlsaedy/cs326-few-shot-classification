@@ -8,7 +8,6 @@ DATA_CONFIG = {
     'target_img_size': 64,
 }
 
-
 METHODS_CONFIGS = {
     'unpretrained_baseline': {
         'name': 'unpretrained_baseline'
@@ -23,9 +22,9 @@ METHODS_CONFIGS = {
     'maml': {
         'name': 'maml',
         # TODO(maml): your maml hyperparams
-        'inner_loop_lr': 'TODO',
-        'num_inner_steps': 'TODO',
-        'ft_optim_kwargs': 'TODO',
+        'inner_loop_lr': 40,
+        'num_inner_steps': 60,
+        'ft_optim_kwargs': {'lr': 0.001},
         # ... other MAML hyperparameters?
     },
 }
@@ -39,33 +38,32 @@ TRAINING_CONFIG = {
     },
     'pretrained_baseline': {
         # TODO(pretrained_baseline): your pretrained_baseline hyperparams
-        'batch_size': 'TODO',
-        'num_train_steps_per_episode': 'TODO',
-        'num_train_episodes': 'TODO',
-        'optim_kwargs': 'TODO',
+        'batch_size': 40,
+        'num_train_steps_per_episode': 50,
+        'num_train_episodes': 8,
+        'optim_kwargs':  {'lr': 0.0001},
         # ... other Pretrained Baseline hyperparameters?
     },
     'protonet': {
         # TODO(protonet): your ProtoNet hyperparams
-        'batch_size': 'TODO',
-        'num_train_steps_per_episode': 'TODO',
-        'num_train_episodes': 'TODO',
-        'optim_kwargs': 'TODO',
+        'batch_size': 40,
+        'num_train_steps_per_episode': 50,
+        'num_train_episodes': 0,
+        'optim_kwargs':  {'lr': 0},
         # ... other ProtoNet hyperparameters?
     },
     'maml': {
         # TODO(maml): your MAML hyperparams
-        'batch_size': 'TODO',
-        'num_train_steps_per_episode': 'TODO',
-        'num_train_episodes': 'TODO',
-        'optim_kwargs': 'TODO',
-        # ... other MAML hyperparameters?
+        'batch_size': 20,
+        'num_train_steps_per_episode': 50,
+        'num_train_episodes': 4,
+        'optim_kwargs': {'lr': 0.001},
+        # ... other ProtoNet hyperparameters?
     },
 }
 
 COMMON_TRAINING_CONFIG = {
-    'random_seed': 42,
-    'num_shots': 3, # TODO: this is what you may vary to have different K values
+    'random_seed': 1,
     'num_classes_per_task': 5,
 }
 

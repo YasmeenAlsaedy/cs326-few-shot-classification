@@ -3,13 +3,13 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from .trainer import Trainer
 from models import init_model
 
 
 class MAMLTrainer(Trainer):
     def train_on_episode(self, model, optim, ds_train, ds_test):
+
         losses = []
         accs = []
 
@@ -24,15 +24,15 @@ class MAMLTrainer(Trainer):
             y = y.to(self.config['device'])
 
             # TODO(maml): perform forward pass, compute logits, loss and accuracy
-            logits = "TODO"
-            loss = "TODO"
-            acc = "TODO"
+            logits = model(x)
+            loss = F.cross_entropy(logits, y)
+            acc = (logits.argmax(dim=1) == y).float().mean()
 
             # TODO(maml): compute the gradient and update the fast weights
             # Hint: think hard about it. This is maybe the hardest part of the whole assignment
             # You will likely need to check open-source implementations to get the idea of how things work
-            grad = "TODO"
-            fast_w = "TODO"
+            grad = torch.autograd.grad(loss, fast_w)
+            fast_w = list(map(lambda p: p[1] - self.config['training']['optim_kwargs']['lr'] * p[0], zip(grad, fast_w)))
 
             losses.append(loss.item())
             accs.append(acc.item())
@@ -41,9 +41,14 @@ class MAMLTrainer(Trainer):
         y = torch.stack([s[1] for s in ds_test]).to(self.config['device'])
 
         # TODO(maml): compute the logits, outer-loop loss and outer-loop accuracy
-        logits = "TODO"
-        outer_loss = "TODO"
-        outer_acc = "TODO"
+
+        if isinstance(fast_w, list):
+            fast_w = torch.stack(fast_w).squeeze(0)
+        logits = model(x, fast_w)
+        outer_loss = F.cross_entropy(logits, y)
+        outer_acc = (logits.argmax(dim=1) == y).float().mean()
+        losses.append(outer_loss.item())
+        accs.append(outer_acc)
 
         optim.zero_grad()
         outer_loss.backward()

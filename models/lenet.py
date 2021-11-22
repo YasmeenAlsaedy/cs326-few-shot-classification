@@ -39,6 +39,7 @@ class LeNet(nn.Sequential):
             nn.Linear(120, 84),
             nn.ReLU(),
             nn.Linear(84, config['training']['num_classes_per_task']),
+
         ]
 
         super().__init__(*layers)
@@ -72,7 +73,6 @@ class PureLeNet(PureModule):
             PureProxy(nn.ReLU()),
             PureLinear(84, config['training']['num_classes_per_task']),
         )
-
         self.size = self.model.size
         self.params = None
 
@@ -87,6 +87,5 @@ class PureLeNet(PureModule):
 
     def forward(self, x: Tensor, params: Tensor=None):
         params = params if not params is None else self.params
-
         return self.model(x, params)
 

@@ -4,10 +4,8 @@ from tqdm import tqdm
 import numpy as np
 import torch
 import torch.nn.functional as F
-
 from models import init_model
 from utils.data import FSLDataLoader
-
 
 class Trainer:
     def __init__(self, config: Dict, source_dl: FSLDataLoader, target_dl: FSLDataLoader):
@@ -79,6 +77,8 @@ class Trainer:
         return train_scores, test_scores
 
     def train(self):
+
+        print(self.config)
         episodes = tqdm(range(self.config['training']['num_train_episodes']))
 
         for ep in episodes:

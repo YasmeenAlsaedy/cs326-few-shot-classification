@@ -15,7 +15,7 @@ class MAMLModel:
 
         # TODO(maml): initialize parameters.
         # Hint: check .get_initial_params() method
-        self.params = "TODO"
+        self.params = target_model.get_initial_params()
 
     def train(self, mode: bool=True):
         self.target_model.train(mode)
@@ -31,7 +31,9 @@ class MAMLModel:
     def parameters(self) -> List[nn.Parameter]:
         return [self.params]
 
-    def __call__(self, x: Tensor) -> Tensor:
+    def __call__(self, x: Tensor, params: Tensor = None) -> Tensor:
         # TODO: perform a forward pass
         # Hint: you should call target_model here with your params
-        return "TODO"
+        params = params if not params is None else self.params
+
+        return self.target_model(x,  params)

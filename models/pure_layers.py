@@ -12,7 +12,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
 
-
 class PureModule:
     def __init__(self):
         self.size = 0
